@@ -21,6 +21,13 @@
    * databases, object storage, AI inference, real-time communication and more.
    * https://developers.cloudflare.com/workers/runtime-apis/bindings/
    */
+    "d1_databases": [
+      {
+        "binding": "test_db",
+        "database_name": "test-db",
+        "database_id": "c06d7a6a-f6a1-4760-8896-816c48696ae3"
+      }
+    ],
   /**
    * Environment Variables
    * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
