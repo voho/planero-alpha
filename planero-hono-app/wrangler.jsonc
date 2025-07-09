@@ -17,7 +17,7 @@
 	"assets": {
 		"directory": "./dist/client",
 		"not_found_handling": "single-page-application"
-	}
+	},
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
@@ -30,7 +30,25 @@
 	 * databases, object storage, AI inference, real-time communication and more.
 	 * https://developers.cloudflare.com/workers/runtime-apis/bindings/
 	 */
-
+	"d1_databases": [
+		{
+			"binding": "db",
+			"database_name": "test-db",
+			"database_id": "c06d7a6a-f6a1-4760-8896-816c48696ae3"
+		}
+	],
+	"secrets_store_secrets": [
+		{
+			"binding": "CLERK_PUBLISHABLE_KEY",
+			"store_id": "36b416cb3013449cbd9ad07778a29001",
+			"secret_name": "CLERK_PUBLISHABLE_KEY"
+		},
+		{
+			"binding": "CLERK_SECRET_KEY",
+			"store_id": "36b416cb3013449cbd9ad07778a29001",
+			"secret_name": "CLERK_SECRET_KEY"
+		}
+	]
 	/**
 	 * Environment Variables
 	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
