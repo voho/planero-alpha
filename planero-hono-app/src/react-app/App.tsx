@@ -1,13 +1,21 @@
 import { LoginStatus } from './user/LoginStatus';
+import './main.css';
 
-function App() {
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+  body {
+      background-color: ${props => props.theme.palette.common.bg};
+      color: ${props => props.theme.palette.common.fg};
+      padding: ${props => props.theme.spacing(2)}
+  }
+`
+
+export const App = () =>{
   return (
-    <div>
-      <p>Hello!</p>
-      <p>{JSON.stringify(import.meta.env) } + {JSON.stringify(process.env)}</p>
+      <>
+          <GlobalStyle />
       <LoginStatus />
-    </div>
+      </>
   )
 }
-
-export default App;

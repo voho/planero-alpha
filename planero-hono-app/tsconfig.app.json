@@ -6,6 +6,9 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "types": [
+      "src/react-app/styled.d.ts"
+    ],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
