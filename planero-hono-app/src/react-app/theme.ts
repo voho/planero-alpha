@@ -1,5 +1,5 @@
 // theme.ts
-import { DefaultTheme } from 'styled-components'
+import {DefaultTheme} from 'styled-components'
 
 export const defaultTheme: DefaultTheme = {
     spacing: (n: number) => `${n * 0.5}rem`,
