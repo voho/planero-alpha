@@ -9,7 +9,6 @@ const GlobalStyle = createGlobalStyle`
     body {
         background-color: ${props => props.theme.palette.common.bg};
         color: ${props => props.theme.palette.common.fg};
-        padding: ${props => props.theme.spacing(2)}
     }
 `
 

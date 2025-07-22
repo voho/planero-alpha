@@ -1,16 +1,18 @@
 import {LoginStatus} from "../user/LoginStatus";
 import {Link, Outlet} from "react-router-dom";
 import {Protect} from "@clerk/clerk-react";
+import {FlexRow} from "./FlexRow";
+import styled from "styled-components";
 
 export const Layout = () => {
     return (
         <div>
-            <header>
+            <Header>
+                <FlexRow>
                 <h1>Planero</h1>
-                <div>
                     <LoginStatus/>
-                </div>
-            </header>
+                </FlexRow>
+            </Header>
             <div>
                 <main>
                     <Outlet/>
@@ -19,7 +21,7 @@ export const Layout = () => {
                     <ul>
                         <Protect>
                             <li><Link to={"calendar"}>Calendar</Link></li>
-                            <li><Link to={"setup/group"}>Family Setup</Link></li>
+                            <li><Link to={"setup/family"}>Family Setup</Link></li>
                         </Protect>
                     </ul>
                 </nav>
@@ -27,3 +29,7 @@ export const Layout = () => {
         </div>
     )
 }
+
+const Header = styled.header`
+    background: ${props => props.theme.palette.header.bg};
+`

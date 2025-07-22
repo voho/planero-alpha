@@ -12,6 +12,7 @@ declare module 'styled-components' {
             common: IPalette
             primary: IPalette
             secondary: IPalette
+            header: IPalette
 
             background: {
                 default: string

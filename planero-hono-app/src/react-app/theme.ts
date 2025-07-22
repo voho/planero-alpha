@@ -16,6 +16,10 @@ export const defaultTheme: DefaultTheme = {
             bg: '#7A9D54',     // tlumená zelená
             fg: '#FFFFFF'
         },
+        header: {
+            bg: '#bdcfa8',     // tlumená zelená
+            fg: '#FFFFFF'
+        },
         background: {
             default: '#F5EFE7', // hlavní pozadí (béžová)
             alt: '#E8E1D9'      // boxy, karty, pole
