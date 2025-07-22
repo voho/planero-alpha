@@ -1,4 +1,4 @@
-import { hc } from 'hono/client'
+import {hc} from 'hono/client'
 import {QueryClient} from "@tanstack/react-query";
 import {AppType} from "../worker";
 

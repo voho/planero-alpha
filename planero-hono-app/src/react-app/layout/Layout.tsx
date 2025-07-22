@@ -9,7 +9,7 @@ export const Layout = () => {
         <div>
             <Header>
                 <FlexRow>
-                <h1>Planero</h1>
+                    <h1>Planero</h1>
                     <LoginStatus/>
                 </FlexRow>
             </Header>

@@ -26,9 +26,9 @@ export const LoginStatus = () => {
             </SignedOut>
             <SignedIn>
                 <FlexRow>
-                <UserButton/>
-                {isLoading && <p>loading</p>}
-                <p>{data?.name}</p>
+                    <UserButton/>
+                    {isLoading && <p>loading</p>}
+                    <p>{data?.name}</p>
                 </FlexRow>
             </SignedIn>
         </>

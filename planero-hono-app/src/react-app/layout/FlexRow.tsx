@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {PropsWithChildren} from "react";
 
-export const FlexRow = ({ children }: PropsWithChildren) => {
+export const FlexRow = ({children}: PropsWithChildren) => {
     return <FlexRowStyled>{children}</FlexRowStyled>
 }
 

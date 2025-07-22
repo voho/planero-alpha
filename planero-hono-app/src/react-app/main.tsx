@@ -11,12 +11,13 @@ import {queryClient} from "./globals";
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <QueryClientProvider client={queryClient}>
-        <ClerkProvider publishableKey={"pk_test_YWN0aXZlLWJ1bGxkb2ctNzcuY2xlcmsuYWNjb3VudHMuZGV2JA"} afterSignOutUrl="/"
-                       localization={csCZ}>
-            <ThemeProvider theme={defaultTheme}>
-                <App/>
-            </ThemeProvider>
-        </ClerkProvider>
+            <ClerkProvider publishableKey={"pk_test_YWN0aXZlLWJ1bGxkb2ctNzcuY2xlcmsuYWNjb3VudHMuZGV2JA"}
+                           afterSignOutUrl="/"
+                           localization={csCZ}>
+                <ThemeProvider theme={defaultTheme}>
+                    <App/>
+                </ThemeProvider>
+            </ClerkProvider>
         </QueryClientProvider>
     </StrictMode>,
 );
