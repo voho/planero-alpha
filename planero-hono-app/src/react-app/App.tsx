@@ -3,8 +3,9 @@ import {createGlobalStyle} from 'styled-components'
 import {Layout} from "./layout/Layout";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import {CalendarPage} from "./pages/calendar/CalendarPage";
-import {GroupPage} from "./pages/setup/GroupPage";
+import {SetupPage} from "./pages/setup/SetupPage";
 import {HomePage} from "./pages/home/HomePage";
+import {FoodPage} from "./pages/food/FoodPage";
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -22,7 +23,8 @@ export const App = () => {
                     <Route path="/" element={<Layout/>}>
                         <Route index element={<HomePage/>}/>
                         <Route path="calendar" element={<CalendarPage/>}/>
-                        <Route path="setup/group" element={<GroupPage/>}/>
+                        <Route path="food" element={<FoodPage/>}/>
+                        <Route path="setup" element={<SetupPage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

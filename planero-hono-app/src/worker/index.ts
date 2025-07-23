@@ -8,7 +8,7 @@ import ai from "../api/ai";
 
 const app = new Hono<{ Bindings: Env }>()
     .use(secureHeaders())
-    .use('/api/*', timeout(10000))
+    .use('/api/*', timeout(30000))
     .use('/api/*', async (c, next) => {
         const middleware = clerkMiddleware({
             secretKey: c.env.LOCAL_CLERK_SECRET_KEY ?? await c.env.CLERK_SECRET_KEY.get(),
