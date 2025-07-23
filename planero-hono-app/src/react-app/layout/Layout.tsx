@@ -40,12 +40,11 @@ const Header = styled.header`
 const Wrapper = styled.div`
     background: ${props => props.theme.palette.paper.bg};
     color: ${props => props.theme.palette.paper.fg};
-    padding: ${props => props.theme.spacing(5)};
+    padding: ${props => props.theme.spacing(3)};
 `
 
 const Menu = styled.ul`
     background-color: ${props => props.theme.palette.primary.bg};
-    
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -56,13 +55,14 @@ const Menu = styled.ul`
 
 const MenuItem = styled.li`
     display: inline-block;
-    margin: 0;
-    padding: 1em;
     
     a {
         color: ${props => props.theme.palette.primary.fg};
+        display: inline-block;
         font-weight: bold;
         text-decoration: none;
+        margin: 0.25em;
+        padding: 0.5rem 1rem;
     }
 
     &:hover {
