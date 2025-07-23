@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { getCurrentFamily } from "../../../api/families/getCurrentFamily";
 import DataTable from "react-data-table-component";
 import { TableColumn } from "react-data-table-component";
+import { defaultTheme } from "../../theme";
 
 interface FamilyMember {
     id: string;
@@ -52,10 +53,8 @@ export const SetupPage = () => {
 
     return (
         <div>
-            <h1>Nastavení rodiny</h1>
-            <h2>{data?.name}</h2>
+            <h1>{data?.name}</h1>
 
-            <DataTableWrapper>
                 <DataTable
                     columns={columns}
                     data={data?.members || []}
@@ -64,42 +63,7 @@ export const SetupPage = () => {
                     responsive
                     striped
                     noHeader
-                    customStyles={customStyles}
                 />
-                            </DataTableWrapper>
         </div>
     );
 };
-
-const customStyles = {
-    headCells: {
-        style: {
-            backgroundColor: 'var(--primary-bg, #f2f2f2)',
-            color: 'var(--primary-fg, #333)',
-            fontWeight: 'bold',
-            paddingLeft: '8px',
-            paddingRight: '8px',
-        },
-    },
-    cells: {
-        style: {
-            paddingLeft: '8px',
-            paddingRight: '8px',
-        },
-    },
-    rows: {
-        highlightOnHoverStyle: {
-            backgroundColor: '#f1f1f1',
-            transitionDuration: '0.15s',
-        },
-    },
-};
-
-const DataTableWrapper = styled.div`
-    margin-top: 1rem;
-    width: 100%;
-
-    .rdt_TableRow:nth-child(even) {
-        background-color: #f9f9f9;
-    }
-`;
