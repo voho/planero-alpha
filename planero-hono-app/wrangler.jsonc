@@ -47,6 +47,11 @@
 			"binding": "CLERK_SECRET_KEY",
 			"store_id": "36b416cb3013449cbd9ad07778a29001",
 			"secret_name": "CLERK_SECRET_KEY"
+		},
+		{
+			"binding": "OPENAI_SECRET_KEY",
+			"store_id": "36b416cb3013449cbd9ad07778a29001",
+			"secret_name": "CLERK_PUBLISHABLE_KEY"
 		}
 	]
 	/**

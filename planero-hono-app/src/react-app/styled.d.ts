@@ -13,6 +13,7 @@ declare module 'styled-components' {
             primary: IPalette
             secondary: IPalette
             header: IPalette
+            paper: IPalette
 
             background: {
                 default: string

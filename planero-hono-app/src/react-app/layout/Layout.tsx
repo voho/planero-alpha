@@ -14,17 +14,19 @@ export const Layout = () => {
                 </FlexRow>
             </Header>
             <div>
+                <Protect>
+                    <Menu>
+                        <MenuItem><Link to={"/"}>Domů</Link></MenuItem>
+                        <MenuItem><Link to={"calendar"}>Kalendář</Link></MenuItem>
+                        <MenuItem><Link to={"food"}>Jídelníček</Link></MenuItem>
+                        <MenuItem><Link to={"setup"}>Nastavení</Link></MenuItem>
+                    </Menu>
+                </Protect>
                 <main>
+                    <Wrapper>
                     <Outlet/>
+                    </Wrapper>
                 </main>
-                <nav>
-                    <ul>
-                        <Protect>
-                            <li><Link to={"calendar"}>Calendar</Link></li>
-                            <li><Link to={"setup/family"}>Family Setup</Link></li>
-                        </Protect>
-                    </ul>
-                </nav>
             </div>
         </div>
     )
@@ -32,4 +34,42 @@ export const Layout = () => {
 
 const Header = styled.header`
     background: ${props => props.theme.palette.header.bg};
+    color: ${props => props.theme.palette.header.fg};
+`
+
+const Wrapper = styled.div`
+    background: ${props => props.theme.palette.paper.bg};
+    color: ${props => props.theme.palette.paper.fg};
+    padding: ${props => props.theme.spacing(5)};
+`
+
+const Menu = styled.ul`
+    background-color: ${props => props.theme.palette.primary.bg};
+    
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    vertical-align: center;
+    margin: 0;
+    padding: 0 1em;
+`
+
+const MenuItem = styled.li`
+    display: inline-block;
+    margin: 0;
+    padding: 1em;
+    
+    a {
+        color: ${props => props.theme.palette.primary.fg};
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    &:hover {
+        background: ${props => props.theme.palette.header.fg};
+        
+        a {
+                color: ${props => props.theme.palette.header.bg};
+        }
+    }
 `

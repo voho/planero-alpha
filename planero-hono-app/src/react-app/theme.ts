@@ -1,47 +1,51 @@
 // theme.ts
-import {DefaultTheme} from 'styled-components'
+import { DefaultTheme } from 'styled-components'
 
 export const defaultTheme: DefaultTheme = {
     spacing: (n: number) => `${n * 0.5}rem`,
     palette: {
         common: {
-            fg: '#3E3E3E',     // základní text
-            bg: '#F5EFE7'      // světlé béžové pozadí
+            fg: '#2F2617',     // tmavá kávová – základní text
+            bg: '#F6F3EE'      // jemná krémová – pozadí stránky
         },
         primary: {
-            bg: '#6E5849',     // tmavě hnědá (akcent)
-            fg: '#FFFFFF'      // bílý text na primární barvě
+            bg: '#00704A',     // typická Starbucks zeleň
+            fg: '#FFFFFF'      // kontrastní bílý text
+        },
+        paper: {
+            bg: '#FFFFFF',     // čistě bílá pro karty
+            fg: '#2F2617'      // tmavý text na papírovém pozadí
         },
         secondary: {
-            bg: '#7A9D54',     // tlumená zelená
+            bg: '#CBA135',     // latte barva – teplý akcent
             fg: '#FFFFFF'
         },
         header: {
-            bg: '#bdcfa8',     // tlumená zelená
-            fg: '#FFFFFF'
+            bg: '#A9C6B4',     // jemná tlumená zelená
+            fg: '#2F2617'      // tmavý text
         },
         background: {
-            default: '#F5EFE7', // hlavní pozadí (béžová)
-            alt: '#E8E1D9'      // boxy, karty, pole
+            default: '#F6F3EE', // hlavní krémové pozadí
+            alt: '#E9E4DC'      // o něco tmavší – boxy, zvýraznění
         },
         text: {
-            primary: '#3E3E3E',
-            muted: '#77726B'
+            primary: '#2F2617',   // tmavá kávová
+            muted: '#756B5E'      // neutrální, méně výrazný text
         },
         border: {
-            default: '#D6CFC7'
+            default: '#D6CFC7'    // jemná šedobéžová linie
         },
         success: {
-            bg: '#C3D9B0',
-            fg: '#3E3E3E'
+            bg: '#D4E9E2',        // mint green (pozitivní zpětná vazba)
+            fg: '#2F2617'
         },
         warning: {
-            bg: '#F5D6A0',
-            fg: '#3E3E3E'
+            bg: '#F5D6A0',        // jemně zlatá – decentní výstraha
+            fg: '#2F2617'
         },
         danger: {
-            bg: '#E6A29A',
-            fg: '#3E3E3E'
+            bg: '#E6A29A',        // tlumená růžovo-červená
+            fg: '#2F2617'
         }
     }
 }
