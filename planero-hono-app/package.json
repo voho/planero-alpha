@@ -24,6 +24,8 @@
     "@hono/clerk-auth": "^3.0.1",
     "@tanstack/react-query": "^5.83.0",
     "hono": "^4.8.2",
+    "kysely": "^0.28.3",
+    "kysely-d1": "^0.4.0",
     "modern-normalize": "^3.0.1",
     "openai": "^5.10.2",
     "react": "19.0.0",
@@ -54,6 +56,9 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "cf-typegen": "wrangler types",
+    "db:create": "wrangler d1 execute test-db --file src/database/create.sql",
+    "db:init": "wrangler d1 execute test-db --file src/database/init.sql",
+    "db:reset": "npm run db:create && npm run db:init",
     "check": "tsc && vite build && wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "dev": "vite",

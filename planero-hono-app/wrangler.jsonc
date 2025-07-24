@@ -34,7 +34,7 @@
 		{
 			"binding": "db",
 			"database_name": "test-db",
-			"database_id": "c06d7a6a-f6a1-4760-8896-816c48696ae3"
+          "database_id": "39a43b7e-a613-4cc8-b542-da4fdc6d599b"
 		}
 	],
 	"secrets_store_secrets": [

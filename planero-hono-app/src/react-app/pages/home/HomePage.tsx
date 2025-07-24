@@ -23,7 +23,7 @@ export const HomePage = () => {
                     </FlexCol>
                 ) : (
                     <FlexCol>
-                    <p>{tipData?.tip}</p>
+                        <p>{tipData?.tipContent}</p>
                         <HeroImage src="/nice.png" alt="Nice!"/>
                     </FlexCol>
                 )}

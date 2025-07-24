@@ -2,16 +2,16 @@ import {getAiClient, CustomContext} from "../../react-app/globals";
 import {getCurrentFamily} from "../families/getCurrentFamily";
 
 type Params = {
-    c: CustomContext
+    context: CustomContext
 }
 
-export const getTipOfDay = async ({c}: Params) => {
-    const openai = getAiClient(c.env.LOCAL_OPENAI_SECRET_KEY ?? c.env.OPENAI_SECRET_KEY)
+export const getTipOfDay = async ({context}: Params) => {
+    const openai = getAiClient(context)
 
-    const family = await getCurrentFamily()
+    const family = await getCurrentFamily({context})
 
     const familyDescription = family.members.map(member => {
-        return `${member.name} (pohlaví: ${member.gender}, datum narození: ${member.birthday}, zájmy: ${member.hobbies.join(', ')})`;
+        return `${member.name} (pohlaví: ${member.gender}, datum narození: ${member.bornAt})`;
     }).join("; ");
 
     const completion = await openai.chat.completions.create({

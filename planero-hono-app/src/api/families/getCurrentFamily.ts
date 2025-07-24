@@ -1,48 +1,48 @@
-export const getCurrentFamily = async () => {
+import {getDb, CustomContext} from "../../react-app/globals";
+import {getLoggedUserIdOrFail} from "../assert";
+
+type Params = {
+    context: CustomContext
+}
+
+export const getCurrentFamily = async ({context}: Params) => {
+    const db = getDb(context)
+    const userId = getLoggedUserIdOrFail(context)
+
+    const families = await db.selectFrom("user_to_family")
+        .select("family_id")
+        .distinct()
+        .where("user_id", "=", userId)
+        .execute()
+
+    if (families.length !== 1) {
+        throw new Error("Invalid family count:" + families.length)
+    }
+
+    const familyId = families[0].family_id
+
+    const family = await db.selectFrom("family")
+        .select(["id", "name"])
+        .where("id", "=", familyId)
+        .executeTakeFirstOrThrow()
+
+    const members = await db.selectFrom("user as u")
+        .innerJoin("user_to_family as utf", "utf.user_id", "u.id")
+        .select(["u.id", "u.name", "utf.role", "u.born_at", "u.gender"])
+        .where("utf.family_id", "=", familyId)
+        .orderBy("u.born_at")
+        .orderBy("u.name")
+        .execute()
+
     return {
-        id: "test",
-        name: "Rodina Testovací",
-        members: [
-            {
-                id: "test-father",
-                name: "Táta Testovací",
-                role: "father",
-                gender: "M",
-                birthday: '1980-01-01',
-                hobbies: ["hudba", "čtení", "crossfit", "IT", "gaming"]
-            },
-            {
-                id: "test-mother",
-                name: "Máma Testovací",
-                role: "mother",
-                gender: "F",
-                birthday: '1981-01-01',
-                hobbies: ["čtení", "knihy", "filmy", "seriály", "šití", "pletení", "tvoření"]
-            },
-            {
-                id: "test-son",
-                name: "Syn Testovací",
-                role: "son",
-                gender: "M",
-                birthday: '2021-01-01',
-                hobbies: ["policajti", "vojáci", "kreslení", "minecraft"]
-            },
-            {
-                id: "test-daughter1",
-                name: "Dcera1 Testovací",
-                role: "daughter",
-                gender: "F",
-                birthday: '2014-01-01',
-                hobbies: ["kreslení", "malování", "tvoření", "kreslení na tabletu", "gaming - roblox", "šití"]
-            },
-            {
-                id: "test-daughter2",
-                name: "Dcera2 Testovací",
-                role: "daughter",
-                gender: "F",
-                birthday: '2017-01-01',
-                hobbies: ["zvířata", "čtení", "kreslení", "minecraft", "roblox", "shorty"]
-            }
-        ]
+        id: family.id,
+        name: family.name,
+        members: members.map(it => ({
+            id: it.id,
+            name: it.name,
+            gender: it.gender,
+            bornAt: it.born_at ?? undefined,
+            role: it.role
+        }))
     }
 };

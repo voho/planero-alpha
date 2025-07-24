@@ -3,14 +3,14 @@ import {getCurrentFamily} from "../families/getCurrentFamily";
 import {getCurrentFamilyFoodDetails} from "../families/getCurrentFamilyFoodDetails";
 
 type Params = {
-    c: CustomContext
+    context: CustomContext
 }
 
-export const getWeeklyFoodPlan =async ({c}:Params) => {
-    const openai = getAiClient(c.env.LOCAL_OPENAI_SECRET_KEY ?? c.env.OPENAI_SECRET_KEY)
+export const getWeeklyFoodPlan = async ({context}: Params) => {
+    const openai = getAiClient(context)
 
-    const family = await getCurrentFamily()
-    const meal = getCurrentFamilyFoodDetails()
+    const family = await getCurrentFamily({context})
+    const meal = getCurrentFamilyFoodDetails({context})
 
     const completion = await openai.chat.completions.create({
         messages: [

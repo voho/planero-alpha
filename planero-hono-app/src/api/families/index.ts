@@ -4,15 +4,15 @@ import {getCurrentFamily} from "./getCurrentFamily";
 import {getCurrentFamilyFoodDetails} from "./getCurrentFamilyFoodDetails";
 
 export const app = new Hono<{ Bindings: Env }>()
-    .get('/current', async (c) => {
-        assertAuthenticated(c)
+    .get('/current', async (context) => {
+        assertAuthenticated(context)
 
-        return c.json(await getCurrentFamily())
+        return context.json(await getCurrentFamily({context}))
     })
-    .get('/current/food', async (c) => {
-        assertAuthenticated(c)
+    .get('/current/food', async (context) => {
+        assertAuthenticated(context)
 
-        return c.json(await getCurrentFamilyFoodDetails())
+        return context.json(await getCurrentFamilyFoodDetails({context}))
     })
 
 export default app;

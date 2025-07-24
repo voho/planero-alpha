@@ -1,23 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
-import { getCurrentFamily } from "../../../api/families/getCurrentFamily";
-import DataTable from "react-data-table-component";
-import { TableColumn } from "react-data-table-component";
-import { defaultTheme } from "../../theme";
+import {useQuery} from "@tanstack/react-query";
+import DataTable, {TableColumn} from "react-data-table-component";
+import {apiClient} from "../../globals";
+import {useFormatter} from "../../hooks/useFormatter";
 
 interface FamilyMember {
     id: string;
     name: string;
     role: string;
     gender: string;
-    birthday: string;
-    hobbies: string[];
+    bornAt?: string;
 }
 
 export const SetupPage = () => {
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["family-members"],
-        queryFn: getCurrentFamily
+    const {formatDate, formatGender, formatRole} = useFormatter()
+
+    const {data, isLoading, error} = useQuery({
+        queryKey: ["api.families.current"],
+        queryFn: async () => {
+            const res = await apiClient.api.families.current.$get()
+            return await res.json()
+        },
     });
 
     const columns: TableColumn<FamilyMember>[] = [
@@ -29,21 +31,19 @@ export const SetupPage = () => {
         {
             name: "Role",
             selector: row => row.role,
+            format: row => formatRole(row.role),
             sortable: true,
         },
         {
             name: "Pohlaví",
             selector: row => row.gender,
+            format: row => formatGender(row.gender),
             sortable: true,
         },
         {
             name: "Datum narození",
-            selector: row => row.birthday,
-            sortable: true,
-        },
-        {
-            name: "Koníčky",
-            selector: row => row.hobbies.join(", "),
+            selector: row => row.bornAt ?? "",
+            format: value => value.bornAt ? formatDate(value.bornAt) : "-",
             sortable: true,
         },
     ];
@@ -55,15 +55,15 @@ export const SetupPage = () => {
         <div>
             <h1>{data?.name}</h1>
 
-                <DataTable
-                    columns={columns}
-                    data={data?.members || []}
-                    pagination
-                    highlightOnHover
-                    responsive
-                    striped
-                    noHeader
-                />
+            <DataTable
+                columns={columns}
+                data={data?.members || []}
+                pagination
+                highlightOnHover
+                responsive
+                striped
+                noHeader
+            />
         </div>
     );
 };

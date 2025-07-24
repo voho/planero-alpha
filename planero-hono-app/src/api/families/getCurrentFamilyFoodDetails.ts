@@ -1,7 +1,12 @@
 import {getCurrentFamily} from "./getCurrentFamily";
+import {CustomContext} from "../../react-app/globals";
 
-export const getCurrentFamilyFoodDetails = async () => {
-    const family = await getCurrentFamily()
+type Params = {
+    context: CustomContext
+}
+
+export const getCurrentFamilyFoodDetails = async ({context}: Params) => {
+    const family = await getCurrentFamily({context})
 
     return {
         generalFoodDetails: {
