@@ -6,6 +6,7 @@ import {useFormatter} from "../../hooks/useFormatter";
 interface FamilyMember {
     id: string;
     name: string;
+    email: string;
     role: string;
     gender: string;
     bornAt?: string;
@@ -26,6 +27,11 @@ export const SetupPage = () => {
         {
             name: "Jméno",
             selector: row => row.name,
+            sortable: true,
+        },
+        {
+            name: "E-mail",
+            selector: row => row.email,
             sortable: true,
         },
         {

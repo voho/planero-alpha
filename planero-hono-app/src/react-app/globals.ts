@@ -13,6 +13,6 @@ export const queryClient = new QueryClient()
 
 export const apiClient = hc<AppType>("/")
 
-export const getAiClient = (context: CustomContext) => new OpenAI({apiKey: context.env.LOCAL_OPENAI_SECRET_KEY ?? context.env.OPENAI_SECRET_KEY});
+export const getAiClient = async (context: CustomContext) => new OpenAI({apiKey: context.env.LOCAL_OPENAI_SECRET_KEY ?? await context.env.OPENAI_SECRET_KEY.get()});
 
 export const getDb = (context: CustomContext) => new Kysely<Database>({dialect: new D1Dialect({database: context.env.db})});

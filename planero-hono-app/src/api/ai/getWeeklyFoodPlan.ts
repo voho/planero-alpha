@@ -7,7 +7,7 @@ type Params = {
 }
 
 export const getWeeklyFoodPlan = async ({context}: Params) => {
-    const openai = getAiClient(context)
+    const openai = await getAiClient(context)
 
     const family = await getCurrentFamily({context})
     const meal = getCurrentFamilyFoodDetails({context})

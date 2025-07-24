@@ -28,7 +28,7 @@ export const getCurrentFamily = async ({context}: Params) => {
 
     const members = await db.selectFrom("user as u")
         .innerJoin("user_to_family as utf", "utf.user_id", "u.id")
-        .select(["u.id", "u.name", "utf.role", "u.born_at", "u.gender"])
+        .select(["u.id", "u.name", "utf.role", "u.born_at", "u.gender", "u.email"])
         .where("utf.family_id", "=", familyId)
         .orderBy("u.born_at")
         .orderBy("u.name")
@@ -40,6 +40,7 @@ export const getCurrentFamily = async ({context}: Params) => {
         members: members.map(it => ({
             id: it.id,
             name: it.name,
+            email: it.email,
             gender: it.gender,
             bornAt: it.born_at ?? undefined,
             role: it.role
