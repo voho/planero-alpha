@@ -100,8 +100,6 @@ export const NoteItem = ({note, onEdit}: NoteItemProps) => {
 }
 
 const Container = styled.div`
-    background: ${props => props.theme.palette.background.paper};
-    border: 1px solid ${props => props.theme.palette.divider};
     border-radius: 12px;
     padding: 16px;
     transition: all 0.2s ease;
@@ -111,7 +109,6 @@ const Container = styled.div`
 
     &:hover {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        border-color: ${props => props.theme.palette.primary.light};
         transform: translateY(-2px);
     }
 `
@@ -177,7 +174,6 @@ const Content = styled.div`
         left: 0;
         right: 0;
         height: 20px;
-        background: linear-gradient(transparent, ${props => props.theme.palette.background.paper});
         pointer-events: none;
         opacity: 0;
         transition: opacity 0.2s ease;
