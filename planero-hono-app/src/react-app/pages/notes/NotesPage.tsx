@@ -4,6 +4,7 @@ import {SignedIn, SignedOut} from "@clerk/clerk-react";
 import {FlexCol} from "../../layout/FlexCol";
 import {NotesList} from "./NotesList";
 import {AddNoteModal} from "./AddNoteModal";
+import {Button} from "../../components/Button";
 
 export const NotesPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -14,13 +15,12 @@ export const NotesPage = () => {
                 <Container>
                     <Header>
                         <HeaderContent>
-                            <div>
-                                <h1>Family Notes</h1>
-                                <p>Share thoughts, reminders, and updates with your family</p>
-                            </div>
-                            <AddButton onClick={() => setIsModalOpen(true)}>
-                                + Add Note
-                            </AddButton>
+                            <Button 
+                                onClick={() => setIsModalOpen(true)}
+                                size="large"
+                            >
+                                + Nová sdílená poznámka
+                            </Button>
                         </HeaderContent>
                     </Header>
 
@@ -76,25 +76,4 @@ const HeaderContent = styled.div`
     }
 `
 
-const AddButton = styled.button`
-    background: ${props => props.theme.palette.primary.main};
-    color: ${props => props.theme.palette.primary.contrastText};
-    border: none;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    
-    &:hover {
-        background: ${props => props.theme.palette.primary.dark};
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    
-    &:active {
-        transform: translateY(0);
-    }
-`
+

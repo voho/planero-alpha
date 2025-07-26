@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {useState, useEffect} from "react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {apiClient} from "../../globals";
+import {Button} from "../../components/Button";
 
 type Note = {
     id: string;
@@ -86,18 +87,19 @@ export const EditNoteModal = ({note, isOpen, onClose}: EditNoteModalProps) => {
                     </TextAreaContainer>
 
                     <ButtonContainer>
-                        <CancelButton
+                        <Button
                             type="button"
+                            variant="secondary"
                             onClick={handleClose}
                         >
                             Cancel
-                        </CancelButton>
-                        <SubmitButton
+                        </Button>
+                        <Button
                             type="submit"
                             disabled={!content.trim() || updateNoteMutation.isPending}
                         >
                             {updateNoteMutation.isPending ? "Updating..." : "Update Note"}
-                        </SubmitButton>
+                        </Button>
                     </ButtonContainer>
                 </form>
 
@@ -204,37 +206,7 @@ const ButtonContainer = styled.div`
     padding: 0 24px 24px 24px;
 `
 
-const Button = styled.button`
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid;
-    transition: all 0.2s ease;
-    
-    &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-`
 
-const CancelButton = styled(Button)`
-    background: transparent;
-    color: ${props => props.theme.palette.text.secondary};
-    border-color: ${props => props.theme.palette.divider};
-`
-
-const SubmitButton = styled(Button)`
-    background: ${props => props.theme.palette.primary.main};
-    color: ${props => props.theme.palette.primary.contrastText};
-    border-color: ${props => props.theme.palette.primary.main};
-    
-    &:hover:not(:disabled) {
-        background: ${props => props.theme.palette.primary.dark};
-        border-color: ${props => props.theme.palette.primary.dark};
-    }
-`
 
 const ErrorMessage = styled.div`
     color: ${props => props.theme.palette.error.main};
