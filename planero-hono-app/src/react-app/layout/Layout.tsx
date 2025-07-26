@@ -19,6 +19,7 @@ export const Layout = () => {
                         <MenuItem><Link to={"/"}>Domů</Link></MenuItem>
                         <MenuItem><Link to={"calendar"}>Kalendář</Link></MenuItem>
                         <MenuItem><Link to={"food"}>Jídelníček</Link></MenuItem>
+                        <MenuItem><Link to={"notes"}>Poznámky</Link></MenuItem>
                         <MenuItem><Link to={"setup"}>Nastavení</Link></MenuItem>
                     </Menu>
                 </Protect>
