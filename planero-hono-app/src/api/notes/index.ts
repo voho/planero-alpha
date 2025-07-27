@@ -6,6 +6,7 @@ import {getNotes} from "./getNotes";
 import {addNote} from "./addNote";
 import {updateNote} from "./updateNote";
 import {deleteNote} from "./deleteNote";
+import {searchNotes} from "./searchNotes";
 
 // Zod schemas for validation
 const addNoteSchema = z.object({
@@ -21,11 +22,25 @@ const noteIdSchema = z.object({
     id: z.string().uuid("Invalid note ID format")
 });
 
+const searchNotesSchema = z.object({
+    q: z.string().min(1, "Search query is required").max(1000, "Search query too long")
+});
+
 export const app = new Hono<{ Bindings: Env }>()
     .get('/', async (context) => {
         assertAuthenticated(context)
 
         return context.json(await getNotes({context}))
+    })
+    .get('/search', zValidator('query', searchNotesSchema), async (context) => {
+        assertAuthenticated(context)
+
+        const {q} = context.req.valid('query')
+
+        return context.json(await searchNotes({
+            context,
+            query: q
+        }))
     })
     .post('/', zValidator('json', addNoteSchema), async (context) => {
         assertAuthenticated(context)

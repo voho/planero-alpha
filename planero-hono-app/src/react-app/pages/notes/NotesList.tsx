@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useQuery} from "@tanstack/react-query";
 import {apiClient} from "../../globals";
 import {NoteItem} from "./NoteItem";
@@ -16,17 +16,43 @@ type Note = {
     updatedAt: string;
 }
 
-export const NotesList = () => {
+type NotesListProps = {
+    searchQuery: string;
+}
+
+export const NotesList = ({searchQuery}: NotesListProps) => {
     const [editingNote, setEditingNote] = useState<Note | null>(null)
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('')
+
+    // Debounce search query
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery)
+        }, 300)
+
+        return () => clearTimeout(timer)
+    }, [searchQuery])
 
     const {data: notes, isLoading, error} = useQuery({
-        queryKey: ["notes"],
+        queryKey: ["notes", debouncedSearchQuery],
         queryFn: async () => {
-            const res = await apiClient.api.notes.$get()
-            if (!res.ok) {
-                throw new Error('Failed to fetch notes')
+            if (debouncedSearchQuery.trim()) {
+                // Search notes
+                const res = await apiClient.api.notes.search.$get({
+                    query: { q: debouncedSearchQuery.trim() }
+                })
+                if (!res.ok) {
+                    throw new Error('Failed to search notes')
+                }
+                return await res.json() as Note[]
+            } else {
+                // Get all notes
+                const res = await apiClient.api.notes.$get()
+                if (!res.ok) {
+                    throw new Error('Failed to fetch notes')
+                }
+                return await res.json() as Note[]
             }
-            return await res.json() as Note[]
         },
     })
 
@@ -51,8 +77,17 @@ export const NotesList = () => {
         return (
             <EmptyContainer>
                 <EmptyIcon>📝</EmptyIcon>
-                <h3>No notes yet</h3>
-                <p>Be the first to add a note for your family!</p>
+                {debouncedSearchQuery ? (
+                    <>
+                        <h3>No notes found</h3>
+                        <p>No notes match your search for "{debouncedSearchQuery}"</p>
+                    </>
+                ) : (
+                    <>
+                        <h3>No notes yet</h3>
+                        <p>Be the first to add a note for your family!</p>
+                    </>
+                )}
             </EmptyContainer>
         )
     }
@@ -60,7 +95,16 @@ export const NotesList = () => {
     return (
         <Container>
             <Header>
-                <h2>Family Notes ({notes.length})</h2>
+                <h2>
+                    {debouncedSearchQuery ? (
+                        `Search Results (${notes.length})`
+                    ) : (
+                        `Family Notes (${notes.length})`
+                    )}
+                </h2>
+                {debouncedSearchQuery && (
+                    <SearchInfo>Showing results for "{debouncedSearchQuery}"</SearchInfo>
+                )}
             </Header>
             <NotesContainer>
                 {notes.map((note) => (
@@ -92,7 +136,15 @@ const Header = styled.div`
         color: ${props => props.theme.palette.text.primary};
         font-size: 20px;
         font-weight: 600;
+        margin: 0 0 4px 0;
     }
+`
+
+const SearchInfo = styled.p`
+    color: ${props => props.theme.palette.text.secondary};
+    font-size: 14px;
+    margin: 0;
+    font-style: italic;
 `
 
 const NotesContainer = styled.div`
