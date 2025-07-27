@@ -3,6 +3,7 @@ import {SignedIn, SignedOut} from "@clerk/clerk-react";
 import {apiClient} from "../../globals";
 import {useQuery} from "@tanstack/react-query";
 import {FlexCol} from "../../layout/FlexCol";
+import {QuickActions} from "./QuickActions";
 
 export const HomePage = () => {
     const {data: tipData, isLoading: isTipLoading} = useQuery({
@@ -16,17 +17,23 @@ export const HomePage = () => {
     return (
         <main>
             <SignedIn>
-                {isTipLoading ? (
-                    <FlexCol>
-                    <p>Počkejte... vymýšlím fakt dobrý tip!</p>
-                        <HeroImage src="/waiting.png" alt="Waiting"/>
-                    </FlexCol>
-                ) : (
-                    <FlexCol>
-                        <p>{tipData?.tipContent}</p>
-                        <HeroImage src="/nice.png" alt="Nice!"/>
-                    </FlexCol>
-                )}
+                <HomeContainer>
+                    <TipSection>
+                        {isTipLoading ? (
+                            <FlexCol>
+                                <p>Počkejte... vymýšlím fakt dobrý tip!</p>
+                                <HeroImage src="/waiting.png" alt="Waiting"/>
+                            </FlexCol>
+                        ) : (
+                            <FlexCol>
+                                <p>{tipData?.tipContent}</p>
+                                <HeroImage src="/nice.png" alt="Nice!"/>
+                            </FlexCol>
+                        )}
+                    </TipSection>
+                    
+                    <QuickActions />
+                </HomeContainer>
             </SignedIn>
             <SignedOut>
                 <h1>Co takhle si trochu zjednodušit život?</h1>
@@ -78,4 +85,16 @@ const HeroImage = styled.img`
     display: block;
     margin: 0 auto;
     border-radius: 1em;
+`
+
+const HomeContainer = styled.div`
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+`
+
+const TipSection = styled.div`
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e0e0e0;
 `
