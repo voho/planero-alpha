@@ -13,16 +13,11 @@ declare module 'styled-components' {
             primary: IPalette
             secondary: IPalette
             header: IPalette
-            paper: IPalette
+            menu: IPalette
 
             background: {
                 default: string
                 alt: string
-            }
-
-            text: {
-                primary: string
-                muted: string
             }
 
             border: {

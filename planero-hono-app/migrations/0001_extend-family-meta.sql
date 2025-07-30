@@ -1,0 +1,16 @@
+-- Migration number: 0001 	 2025-07-30T16:26:14.941Z
+
+ALTER TABLE user
+ADD COLUMN interests TEXT;
+
+ALTER TABLE user
+ADD COLUMN personality TEXT;
+
+ALTER TABLE user
+ADD COLUMN body TEXT;
+
+ALTER TABLE user
+ADD COLUMN food TEXT;
+
+ALTER TABLE user
+ADD COLUMN culture TEXT;

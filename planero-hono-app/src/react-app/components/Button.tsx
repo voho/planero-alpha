@@ -69,7 +69,6 @@ const StyledButton = styled.button<{
             case 'secondary':
                 return `
                     background: transparent;
-                    color: ${props.theme.palette.text.secondary};
                     border: 1px solid ${props.theme.palette.border.default};
                     
                     &:hover:not(:disabled) {

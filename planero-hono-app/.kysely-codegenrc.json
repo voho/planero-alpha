@@ -1,0 +1,18 @@
+{
+  "camelCase": false,
+  "dateParser": "timestamp",
+  "defaultSchemas": [],
+  "dialect": "libsql",
+  "domains": true,
+  "logLevel": "warn",
+  "numericParser": "string",
+  "outFile": "src/database/types.ts",
+  "overrides": {},
+  "partitions": false,
+  "print": false,
+  "runtimeEnums": false,
+  "singularize": false,
+  "typeOnlyImports": true,
+  "url": "file:./.wrangler/state/v3/d1/miniflare-D1DatabaseObject/3b7e4371012bba2091d9f62edc3efd54e0d92e53498148f39127c34996e56cc0.sqlite",
+  "verify": false
+}
