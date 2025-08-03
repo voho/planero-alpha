@@ -43,6 +43,7 @@ export interface Note {
 export interface User {
   body: string | null;
   born_at: string | null;
+  clerk_id: string | null;
   created_at: Generated<string>;
   created_by: string | null;
   culture: string | null;

@@ -8,7 +8,7 @@ type Params = {
 
 export const assertCanAccessFamily = async ({context, familyId}: Params) => {
     const db = getDb(context)
-    const userId = getLoggedUserIdOrFail(context)
+    const userId = await getLoggedUserIdOrFail(context)
 
     const membership = await db.selectFrom("user_to_family")
         .select("id")

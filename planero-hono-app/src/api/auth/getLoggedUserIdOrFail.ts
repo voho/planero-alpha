@@ -1,10 +1,18 @@
-import {CustomContext} from "../../react-app/globals";
-import {getAuth} from "@hono/clerk-auth";
+import {CustomContext, getDb} from "../../react-app/globals";
+import {getLoggedClerkUserIdOrFail} from "./getLoggedUserClerkIdOrFail";
 
-export const getLoggedUserIdOrFail = (c: CustomContext) => {
-    const auth = getAuth(c)
-    if (auth && auth.isAuthenticated) {
-        return auth.userId
+export const getLoggedUserIdOrFail = async (context: CustomContext) => {
+    const clerkUserId = getLoggedClerkUserIdOrFail(context)
+    const db = getDb(context)
+
+    const user = await db.selectFrom("user")
+        .select("id")
+        .where("clerk_id", "=", clerkUserId)
+        .executeTakeFirstOrThrow()
+
+    if (!user.id) {
+        throw new Error("User has no ID")
     }
-    throw new Error("Not authenticated")
+
+    return user.id
 }
