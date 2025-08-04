@@ -6,7 +6,7 @@ import {useFormatter} from "../../hooks/useFormatter";
 import type {InferResponseType} from 'hono/client'
 import {Button} from "../../components/Button";
 
-type FamilyMember = InferResponseType<typeof apiClient.api.users.current.$get>["family"]["members"][number]
+type FamilyMember = NonNullable<InferResponseType<typeof apiClient.api.users.current.$get>["family"]>["members"][number]
 
 export const SetupPage = () => {
     const {formatDate, formatGender, formatRole} = useFormatter();
@@ -191,7 +191,7 @@ export const SetupPage = () => {
         const updates = {
             name: nameRef.current?.value,
             email: emailRef.current?.value,
-            gender: genderRef.current?.value,
+            gender: (genderRef.current?.value ?? 'x') as 'm' | 'f' | 'x',
             bornAt: bornAtRef.current?.value,
         };
         updateBasicMutation.mutate(updates);
@@ -308,7 +308,7 @@ export const SetupPage = () => {
                                     <DetailItem>
                                         <DetailLabel>E-mail:</DetailLabel>
                                         <DetailValue>
-                                            {member.email.includes('@placeholder.local') ? 'Nezadán' : member.email}
+                                            {!member.email ? 'Nezadán' : member.email}
                                         </DetailValue>
                                     </DetailItem>
                                     <DetailItem>
@@ -378,7 +378,7 @@ export const SetupPage = () => {
                             <Input
                                 ref={emailRef}
                                 type="email"
-                                defaultValue={selectedMember?.email?.includes('@placeholder.local') ? '' : selectedMember?.email}
+                                defaultValue={selectedMember?.email?.includes('@placeholder.local') ? '' : selectedMember?.email || ''}
                                 placeholder="Volitelné - pro automatické přiřazení účtu"
                             />
                         </FormGroup>
@@ -404,89 +404,150 @@ export const SetupPage = () => {
                     </form>
 
                     <ModalFooter>
-                        <CancelButton onClick={handleCloseModals}>Zrušit</CancelButton>
-                        <SaveButton
+                        <Button variant="secondary" onClick={handleCloseModals}>Zrušit</Button>
+                        <Button
+                            variant="primary"
                             onClick={handleSaveBasic}
                             disabled={updateBasicMutation.isPending}
                         >
                             {updateBasicMutation.isPending ? 'Ukládání...' : 'Uložit'}
-                        </SaveButton>
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
 
             {/* Detailed Info Modal */}
             <Modal isOpen={isDetailModalOpen}>
-                <ModalContent isScrollable>
+                <ModalContent isScrollable isWide>
                     <ModalHeader>
                         <h2>Upravit podrobnosti - {selectedMember?.name}</h2>
                         <CloseButton onClick={handleCloseModals}>×</CloseButton>
                     </ModalHeader>
 
+                    <OverallExplanation>
+                        Tyto informace jsou nepovinné, ale mohou vylepšit výstupy z AI přidáním dodatečného kontextu
+                    </OverallExplanation>
+
                     <form>
-                        <FormGroup>
-                            <Label>Zájmy a koníčky:</Label>
-                            <TextArea
-                                ref={interestsRef}
-                                placeholder="Popište zájmy, koníčky a aktivity..."
-                                defaultValue={selectedMember?.interests || ''}
-                            />
-                        </FormGroup>
+                        <FieldContainer>
+                            <FieldLeft>
+                                <Label>Zájmy a koníčky:</Label>
+                                <TextArea
+                                    ref={interestsRef}
+                                    defaultValue={selectedMember?.interests || ''}
+                                />
+                            </FieldLeft>
+                            <FieldRight>
+                                <FieldDescription>
+                                    Popište aktivity, které tato osoba ráda dělá ve volném čase.
+                                </FieldDescription>
+                                <FieldExample>
+                                    Například: čtení knih, vaření, fotbal, malování, zahradničení, hudba
+                                </FieldExample>
+                            </FieldRight>
+                        </FieldContainer>
 
-                        <FormGroup>
-                            <Label>Jídlo a preference:</Label>
-                            <TextArea
-                                ref={foodRef}
-                                placeholder="Oblíbené jídlo, alergie, dietní omezení..."
-                                defaultValue={selectedMember?.food || ''}
-                            />
-                        </FormGroup>
+                        <FieldContainer>
+                            <FieldLeft>
+                                <Label>Jídlo a preference:</Label>
+                                <TextArea
+                                    ref={foodRef}
+                                    defaultValue={selectedMember?.food || ''}
+                                />
+                            </FieldLeft>
+                            <FieldRight>
+                                <FieldDescription>
+                                    Uveďte oblíbená jídla, alergie nebo speciální dietní požadavky.
+                                </FieldDescription>
+                                <FieldExample>
+                                    Například: vegetarián, alergie na ořechy, miluje italskou kuchyni, nesnáší ryby
+                                </FieldExample>
+                            </FieldRight>
+                        </FieldContainer>
 
-                        <FormGroup>
-                            <Label>Osobnost:</Label>
-                            <TextArea
-                                ref={personalityRef}
-                                placeholder="Povahové rysy, charakteristiky..."
-                                defaultValue={selectedMember?.personality || ''}
-                            />
-                        </FormGroup>
+                        <FieldContainer>
+                            <FieldLeft>
+                                <Label>Osobnost:</Label>
+                                <TextArea
+                                    ref={personalityRef}
+                                    defaultValue={selectedMember?.personality || ''}
+                                />
+                            </FieldLeft>
+                            <FieldRight>
+                                <FieldDescription>
+                                    Popište povahové rysy a charakteristiky této osoby.
+                                </FieldDescription>
+                                <FieldExample>
+                                    Například: extrovert, kreativní, organizovaný, klidný, energický, citlivý
+                                </FieldExample>
+                            </FieldRight>
+                        </FieldContainer>
 
-                        <FormGroup>
-                            <Label>Kultura a pozadí:</Label>
-                            <TextArea
-                                ref={cultureRef}
-                                placeholder="Kulturní pozadí, tradice, hodnoty..."
-                                defaultValue={selectedMember?.culture || ''}
-                            />
-                        </FormGroup>
+                        <FieldContainer>
+                            <FieldLeft>
+                                <Label>Kultura a pozadí:</Label>
+                                <TextArea
+                                    ref={cultureRef}
+                                    defaultValue={selectedMember?.culture || ''}
+                                />
+                            </FieldLeft>
+                            <FieldRight>
+                                <FieldDescription>
+                                    Uveďte kulturní pozadí, tradice nebo hodnoty, které jsou pro tuto osobu důležité.
+                                </FieldDescription>
+                                <FieldExample>
+                                    Například: české tradice, křesťanské hodnoty, láska k přírodě, rodinné tradice
+                                </FieldExample>
+                            </FieldRight>
+                        </FieldContainer>
 
-                        <FormGroup>
-                            <Label>Fyzický popis:</Label>
-                            <TextArea
-                                ref={bodyRef}
-                                placeholder="Fyzické charakteristiky, zdravotní informace..."
-                                defaultValue={selectedMember?.body || ''}
-                            />
-                        </FormGroup>
+                        <FieldContainer>
+                            <FieldLeft>
+                                <Label>Fyzický popis:</Label>
+                                <TextArea
+                                    ref={bodyRef}
+                                    defaultValue={selectedMember?.body || ''}
+                                />
+                            </FieldLeft>
+                            <FieldRight>
+                                <FieldDescription>
+                                    Popište fyzické charakteristiky nebo zdravotní informace relevantní pro plánování.
+                                </FieldDescription>
+                                <FieldExample>
+                                    Například: vysoký, nosí brýle, problémy se zády, aktivní sportovec, omezená mobilita
+                                </FieldExample>
+                            </FieldRight>
+                        </FieldContainer>
 
-                        <FormGroup>
-                            <Label>Poznámky:</Label>
-                            <TextArea
-                                ref={noteRef}
-                                placeholder="Další důležité informace..."
-                                defaultValue={selectedMember?.note || ''}
-                            />
-                        </FormGroup>
+                        <FieldContainer>
+                            <FieldLeft>
+                                <Label>Poznámky:</Label>
+                                <TextArea
+                                    ref={noteRef}
+                                    defaultValue={selectedMember?.note || ''}
+                                />
+                            </FieldLeft>
+                            <FieldRight>
+                                <FieldDescription>
+                                    Jakékoliv další informace, které by mohly být užitečné pro plánování aktivit.
+                                </FieldDescription>
+                                <FieldExample>
+                                    Například: pracuje na směny, má strach z výšek, miluje překvapení, preferuje klidné
+                                    prostředí
+                                </FieldExample>
+                            </FieldRight>
+                        </FieldContainer>
                     </form>
 
                     <ModalFooter>
-                        <CancelButton onClick={handleCloseModals}>Zrušit</CancelButton>
-                        <SaveButton
+                        <Button variant="secondary" onClick={handleCloseModals}>Zrušit</Button>
+                        <Button
+                            variant="primary"
                             onClick={handleSaveExtended}
                             disabled={updateExtendedMutation.isPending}
                         >
                             {updateExtendedMutation.isPending ? 'Ukládání...' : 'Uložit'}
-                        </SaveButton>
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -521,13 +582,14 @@ export const SetupPage = () => {
                     </form>
 
                     <ModalFooter>
-                        <CancelButton onClick={handleCloseModals}>Zrušit</CancelButton>
-                        <SaveButton
+                        <Button variant="secondary" onClick={handleCloseModals}>Zrušit</Button>
+                        <Button
+                            variant="primary"
                             onClick={handleAddMember}
                             disabled={addMemberMutation.isPending}
                         >
                             {addMemberMutation.isPending ? 'Přidávání...' : `Přidat ${newMemberRole === "child" ? "dítě" : "dospělého"}`}
-                        </SaveButton>
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -548,13 +610,14 @@ export const SetupPage = () => {
                     </ConfirmationText>
 
                     <ModalFooter>
-                        <CancelButton onClick={handleCloseModals}>Zrušit</CancelButton>
-                        <DangerButton
+                        <Button variant="secondary" onClick={handleCloseModals}>Zrušit</Button>
+                        <Button
+                            variant="danger"
                             onClick={handleConfirmRemove}
                             disabled={removeMemberMutation.isPending}
                         >
                             {removeMemberMutation.isPending ? 'Odebírání...' : 'Odebrat člena'}
-                        </DangerButton>
+                        </Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>
@@ -663,10 +726,10 @@ const Modal = styled.div<{ isOpen: boolean }>`
     z-index: 1000;
 `;
 
-const ModalContent = styled.div<{ isScrollable?: boolean }>`
+const ModalContent = styled.div<{ isScrollable?: boolean; isWide?: boolean }>`
     background: white;
     padding: 24px;
-    max-width: 600px;
+    max-width: ${props => props.isWide ? '900px' : '600px'};
     width: 90%;
     border-radius: 8px;
     max-height: ${props => props.isScrollable ? '80vh' : 'auto'};
@@ -710,48 +773,7 @@ const ModalFooter = styled.div`
     border-top: 1px solid #eee;
 `;
 
-const SaveButton = styled.button`
-    background: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
 
-    &:disabled {
-        background: #6c757d;
-        cursor: not-allowed;
-    }
-`;
-
-const CancelButton = styled.button`
-    background: #6c757d;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-`;
-
-const DangerButton = styled.button`
-    background: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-
-    &:hover:not(:disabled) {
-        background: #c82333;
-    }
-
-    &:disabled {
-        background: #6c757d;
-        cursor: not-allowed;
-    }
-`;
 
 const ConfirmationText = styled.div`
     margin: 20px 0;
@@ -825,4 +847,51 @@ const InfoText = styled.div`
     font-size: 14px;
     color: #6c757d;
     line-height: 1.4;
+`;
+
+const OverallExplanation = styled.div`
+    background: ${props => props.theme.palette.background.alt};
+    border: 1px solid ${props => props.theme.palette.border.default};
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: ${props => props.theme.palette.common.fg};
+    line-height: 1.5;
+    text-align: center;
+`;
+
+const FieldContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 20px;
+    align-items: start;
+`;
+
+const FieldLeft = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const FieldRight = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 24px; /* Align with input field */
+`;
+
+const FieldDescription = styled.div`
+    font-size: 14px;
+    color: ${props => props.theme.palette.common.fg};
+    line-height: 1.4;
+    margin-bottom: 8px;
+`;
+
+const FieldExample = styled.div`
+    font-size: 13px;
+    color: ${props => props.theme.palette.common.fg};
+    opacity: 0.6;
+    font-style: italic;
+    line-height: 1.3;
 `;
