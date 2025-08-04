@@ -10,9 +10,5 @@ export const getLoggedUserIdOrFail = async (context: CustomContext) => {
         .where("clerk_id", "=", clerkUserId)
         .executeTakeFirstOrThrow()
 
-    if (!user.id) {
-        throw new Error("User has no ID")
-    }
-
     return user.id
 }

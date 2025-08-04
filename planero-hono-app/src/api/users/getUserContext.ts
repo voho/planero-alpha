@@ -1,5 +1,5 @@
 import {CustomContext, getDb} from "../../react-app/globals";
-import {getFamily} from "../families/getFamily";
+import {getAccessibleFamily} from "../families/getAccessibleFamily";
 
 type Params = {
     context: CustomContext;
@@ -28,7 +28,7 @@ export const getUserContext = async ({context, userId}: Params) => {
         : undefined
 
     const family = membership
-        ? await getFamily({context, id: membership.family_id})
+        ? await getAccessibleFamily({context, id: membership.family_id})
         : undefined
 
     return {

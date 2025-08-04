@@ -4,10 +4,13 @@ import {apiClient} from "../globals";
 import {useQuery} from "@tanstack/react-query";
 import {useFormatter} from "../hooks/useFormatter";
 import {Button} from "../components/Button";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 export const LoginStatus = () => {
     const {formatRole} = useFormatter()
     const {isSignedIn} = useClerk()
+    const navigate = useNavigate()
 
     const {data} = useQuery({
         queryKey: ["api.users.current"],
@@ -18,6 +21,12 @@ export const LoginStatus = () => {
         retry: false,
         enabled: isSignedIn
     });
+
+    useEffect(() => {
+        if (isSignedIn && !data?.family) {
+            navigate('/setup')
+        }
+    }, [isSignedIn, data?.family, navigate])
 
     return (
         <>
@@ -30,15 +39,15 @@ export const LoginStatus = () => {
                 <FamilyInfo>
                     <FamilySubInfo>
                         <UserButton/>
-                        <span>{data?.user.name}</span>
+                        {data?.user && <span>{data?.user.name}</span>}
                     </FamilySubInfo>
-                    {data && <FamilySubInfo>
-                        <FamilyName>{data.family.name}</FamilyName>
-                        <FamilyRole>{formatRole(data.role)}</FamilyRole>
+                    <FamilySubInfo>
+                        {data?.family && <FamilyName>{data.family.name}</FamilyName>}
+                        {data?.role && <FamilyRole>{formatRole(data.role ?? '')}</FamilyRole>}
                         <SignOutButton>
                             <CustomSignOutButton>🔒 Odhlásit se</CustomSignOutButton>
                         </SignOutButton>
-                    </FamilySubInfo>}
+                    </FamilySubInfo>
                 </FamilyInfo>
             </SignedIn>
         </>

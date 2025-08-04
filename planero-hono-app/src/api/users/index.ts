@@ -7,8 +7,8 @@ import {getCurrentUser} from './getCurrentUser';
 
 const BasicUserInfoSchema = z.object({
     name: z.string().optional(),
-    email: z.string().email().optional(),
-    gender: z.string().optional(),
+    email: z.string().email("Valid email is required").optional().or(z.literal("")),
+    gender: z.enum(["m", "f", "x"]).optional(),
     bornAt: z.string().optional(),
 });
 

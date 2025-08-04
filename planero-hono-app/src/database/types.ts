@@ -23,21 +23,10 @@ export interface D1Migrations {
 export interface Family {
   created_at: Generated<string>;
   created_by: string | null;
-  id: string | null;
+  id: string;
   name: string;
   updated_at: Generated<string>;
   updated_by: string | null;
-}
-
-export interface Note {
-  author_id: string;
-  content: string | null;
-  created_at: Generated<string>;
-  deleted_at: string | null;
-  family_id: string;
-  id: string | null;
-  parent_id: string | null;
-  updated_at: Generated<string>;
 }
 
 export interface User {
@@ -47,10 +36,10 @@ export interface User {
   created_at: Generated<string>;
   created_by: string | null;
   culture: string | null;
-  email: string;
+  email: string | null;
   food: string | null;
   gender: string;
-  id: string | null;
+  id: string;
   interests: string | null;
   name: string;
   note: string | null;
@@ -63,7 +52,7 @@ export interface UserToFamily {
   created_at: Generated<string>;
   created_by: string | null;
   family_id: string;
-  id: string | null;
+  id: string;
   role: string;
   updated_at: Generated<string>;
   updated_by: string | null;
@@ -74,7 +63,6 @@ export interface DB {
   _cf_METADATA: _CfMETADATA;
   d1_migrations: D1Migrations;
   family: Family;
-  note: Note;
   user: User;
   user_to_family: UserToFamily;
 }

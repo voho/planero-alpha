@@ -1,11 +1,14 @@
 import {CustomContext, getDb} from "../../react-app/globals";
+import {assertLoggedUserCanAccessFamily} from "../auth/assertLoggedUserCanAccessFamily";
 
 type Params = {
     context: CustomContext;
     id: string;
 }
 
-export const getFamily = async ({context, id}: Params) => {
+export const getAccessibleFamily = async ({context, id}: Params) => {
+    await assertLoggedUserCanAccessFamily({context, familyId: id})
+
     const db = getDb(context)
 
     const family = await db.selectFrom("family")

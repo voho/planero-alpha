@@ -51,7 +51,7 @@ export const matchOrCreateNewUser = async ({context, clerkUserId}: Params) => {
             clerk_id: clerkUserId,
             name: clerkUser.name,
             email: clerkUser.email,
-            gender: "X"
+            gender: "x"
         })
         .execute()
 

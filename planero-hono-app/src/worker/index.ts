@@ -3,6 +3,7 @@ import {clerkMiddleware} from '@hono/clerk-auth';
 import {timeout} from 'hono/timeout'
 import {secureHeaders} from 'hono/secure-headers'
 import users from "../api/users";
+import families from "../api/families";
 import ai from "../api/ai";
 
 const app = new Hono<{ Bindings: Env }>()
@@ -16,6 +17,7 @@ const app = new Hono<{ Bindings: Env }>()
         return middleware(c, next)
     })
     .route("/api/users", users)
+    .route("/api/families", families)
     .route("/api/ai", ai)
 
 export type AppType = typeof app

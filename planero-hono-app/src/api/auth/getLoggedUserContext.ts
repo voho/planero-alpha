@@ -16,7 +16,7 @@ export const getLoggedUserContext = async ({context}: Params) => {
         .where("clerk_id", "=", clerkUserId)
         .executeTakeFirst()
 
-    if (!user || !user.id) {
+    if (!user) {
         return matchOrCreateNewUser({context, clerkUserId})
     }
 

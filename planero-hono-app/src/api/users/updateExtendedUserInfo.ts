@@ -1,6 +1,6 @@
 import {getDb, CustomContext} from "../../react-app/globals";
 import {getLoggedUserIdOrFail} from "../auth/getLoggedUserIdOrFail";
-import {assertCanManageFamily} from "../auth/assertCanManageFamily";
+import {assertLoggedUserCanManageFamily} from "../auth/assertLoggedUserCanManageFamily";
 
 type ExtendedUserInfo = {
     body?: string;
@@ -20,9 +20,9 @@ type Params = {
 
 export const updateExtendedUserInfo = async ({context, familyId, userId, updates}: Params) => {
     const db = getDb(context);
-    const loggedUserId = getLoggedUserIdOrFail(context)
+    const loggedUserId = await getLoggedUserIdOrFail(context)
 
-    await assertCanManageFamily({context, familyId});
+    await assertLoggedUserCanManageFamily({context, familyId});
 
     await db.updateTable("user")
         .set({
